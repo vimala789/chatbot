@@ -1,7 +1,112 @@
-# chatbot
-In the above snippet of code, we have defined a variable that is an instance of the class "ChatBot". 
-We have included various parameters within the class. 
-The first parameter, 'name', represents the name of the Python chatbot.
-Another parameter called 'read_only' accepts a Boolean value that disables (TRUE) or enables (FALSE) the ability of the bot to learn after the training. We have also included another parameter named 'logic_adapters' that specifies the adapters utilized to train the chatbot.
-While the 'chatterbot.logic.MathematicalEvaluation' helps the chatbot solve mathematics problems, the ` helps it select the perfect match from the list of responses already provided.
-Since we have to provide a list of responses, we can perform it by specifying the lists of strings that we can use to train the Python chatbot and find the perfect match for a certain query.
+ DATA_DIRECTORY = os.path.join(
+        Path.home(),
+        'chatterbot_corpus',
+        'data'
+    )
+CORPUS_EXTENSION = 'yml' CORPUS_EXTENSION = 'yml'
+@@ -38,6 +45,16 @@ def read_corpus(file_name):
+    """    """
+    Read and return the data from a corpus json file.
+    Read and return the data from a corpus json file.
+    """    """
+    try:
+        import yaml
+    except ImportError:
+        message = (
+            'Unable to import "yaml".\n'
+            'Please install "pyyaml" to enable chatterbot corpus functionality:\n'
+            'pip3 install pyyaml'
+        )
+        raise OptionalDependencyImportError(message)
+
+    with io.open(file_name, encoding='utf-8') as data_file:  
+    with io.open(file_name, encoding='utf-8') as data_file:
+        return yaml.safe_load(data_file)    
+        return yaml.safe_load(data_file)
+class OptionalDependencyImportError(ImportError):
+    """
+    An exception raised when a feature requires an optional dependency to be installed.
+    """
+    pass
+from datetime import datetime from datetime import datetime
+from chatterbot.logic import LogicAdapter from chatterbot.logic import LogicAdapter
+from chatterbot.conversation import Statement from chatterbot.conversation import Statement
+from chatterbot.exceptions import OptionalDependencyImportError
+class TimeLogicAdapter(LogicAdapter): class TimeLogicAdapter(LogicAdapter):
+@@ -18,7 +19,15 @@ class TimeLogicAdapter(LogicAdapter):
+   def __init__(self, chatbot, **kwargs):
+   def __init__(self, chatbot, **kwargs):
+        super().__init__(chatbot, **kwargs)    
+        super().__init__(chatbot, **kwargs)
+        from nltk import NaiveBayesClassifier    
+        try:
+            from nltk import NaiveBayesClassifier
+        except ImportError:
+            message = (
+                'Unable to import "nltk".\n'
+                'Please install "nltk" before using the TimeLogicAdapter:\n'
+                'pip3 install nltk'
+            )
+            raise OptionalDependencyImportError(message)
+
+
+        self.positive = kwargs.get('positive', [      
+        self.positive = kwargs.get('positive', [
+          'what time is it',            'what time is it',
+
+ DATA_DIRECTORY = os.path.join(
+        Path.home(),
+        'chatterbot_corpus',
+        'data'
+    )
+CORPUS_EXTENSION = 'yml' CORPUS_EXTENSION = 'yml'
+@@ -38,6 +45,16 @@ def read_corpus(file_name):
+    """    """
+    Read and return the data from a corpus json file.
+    Read and return the data from a corpus json file.
+    """    """
+    try:
+        import yaml
+    except ImportError:
+        message = (
+            'Unable to import "yaml".\n'
+            'Please install "pyyaml" to enable chatterbot corpus functionality:\n'
+            'pip3 install pyyaml'
+        )
+        raise OptionalDependencyImportError(message)
+
+    with io.open(file_name, encoding='utf-8') as data_file:  
+    with io.open(file_name, encoding='utf-8') as data_file:
+        return yaml.safe_load(data_file)    
+        return yaml.safe_load(data_file)
+class OptionalDependencyImportError(ImportError):
+    """
+    An exception raised when a feature requires an optional dependency to be installed.
+    """
+    pass
+from datetime import datetime from datetime import datetime
+from chatterbot.logic import LogicAdapter from chatterbot.logic import LogicAdapter
+from chatterbot.conversation import Statement from chatterbot.conversation import Statement
+from chatterbot.exceptions import OptionalDependencyImportError
+class TimeLogicAdapter(LogicAdapter): class TimeLogicAdapter(LogicAdapter):
+@@ -18,7 +19,15 @@ class TimeLogicAdapter(LogicAdapter):
+   def __init__(self, chatbot, **kwargs):
+   def __init__(self, chatbot, **kwargs):
+        super().__init__(chatbot, **kwargs)    
+        super().__init__(chatbot, **kwargs)
+        from nltk import NaiveBayesClassifier    
+        try:
+            from nltk import NaiveBayesClassifier
+        except ImportError:
+            message = (
+                'Unable to import "nltk".\n'
+                'Please install "nltk" before using the TimeLogicAdapter:\n'
+                'pip3 install nltk'
+            )
+            raise OptionalDependencyImportError(message)
+
+
+        self.positive = kwargs.get('positive', [      
+        self.positive = kwargs.get('positive', [
+          'what time is it',            'what time is it',
+
